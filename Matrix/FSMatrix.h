@@ -22,7 +22,7 @@
  *         @"Leon Trotsky",
  *         @"Vladimir Lenin", nil],
  *       nil];
- *     NSAssert([deadFolks objectForColumn:2 row:0]==[NSNull null],
+ *     NSAssert([deadFolks objectForRow:0 column:2]==[NSNull null],
  *              @"Assertion Failure!"); // this will always be true,
  *     // so the assertion will never fail
  *
@@ -32,11 +32,11 @@
  *     NSUInteger rows = ...; // somewhere...
  *     FSMatrix* map =
  *       [[FSMatrix alloc]
- *         initWithColumns:cols
- *                    rows:rows
- *                  lambda:id(^)(){
- *                    return [NSMutableSet setWithCapacity:10];
- *                   }];
+ *         initWithRows:rows
+ *              columns:cols
+ *               lambda:id(^)(){
+ *                 return [NSMutableSet setWithCapacity:10];
+ *               }];
  *
  * Each and every value in the matrix is a mutable set, ready for action.
  *
@@ -79,7 +79,7 @@
 /**
  * Initialize a new matrix that is described by the given dimensions and initialize everything to the return type of `lambda`.
  */
-- (id)initWithColumns:(NSUInteger)columns rows:(NSUInteger)rows lambda:(id(^)())defaultInitializer;
+- (id)initWithRows:(NSUInteger)rows columns:(NSUInteger)columns lambda:(id(^)())defaultInitializer;
 
 /** The number of rows in this matrix. If this were a 2-d C array (or C++ vector) that would be the first array subscript: `vec[x]` */
 - (NSUInteger)rows;
@@ -90,7 +90,7 @@
 /**
  * Returns the object at the given path in the receiver. Will throw an `NSArray` bounds exception if you screw up.
  */
-- (id)objectForColumn:(NSUInteger)column row:(NSUInteger)row;
+- (id)objectAtRow:(NSUInteger)row column:(NSUInteger)column;
 
 @end
 

@@ -15,7 +15,7 @@
  *
  *     FSMutableMatrix* mutableMatrix = [[FSMutableMatrix alloc] init];
  *     // mutableMatrix is now an empty matrix
- *     [mutableMatrix setObject:@"Hello, world!" forColumn:3 row:3];
+ *     [mutableMatrix setObject:@"Hello, world!" forRow:3 column:3];
  *     // mutableMatrix now looks something like this:
  *     // NULL NULL NULL NULL
  *     // NULL NULL NULL NULL
@@ -32,6 +32,6 @@
 /**
  * Replaces and object. This will grow the matrix if necessary.
  */ 
-- (void)setObject:(id)object forColumn:(NSUInteger)column row:(NSUInteger)row;
+- (void)setObject:(id)object forRow:(NSUInteger)row column:(NSUInteger)column;
 
 @end
