@@ -36,6 +36,12 @@ int main (int argc, const char * argv[])
         
         NSLog(@"Dead folks: %@", deadFolks);
         
+        FSMutableMatrix* mutationExample = [[FSMutableMatrix alloc] init];
+        NSLog(@"Mutation Example: %@", mutationExample);
+        
+        [mutationExample setObject:@"Hello, world!" forColumn:3 row:3];
+        NSLog(@"Mutation Example: %@", mutationExample);
+        
     }
     
     return 0;

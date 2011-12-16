@@ -46,21 +46,57 @@
  */
 @interface FSMatrix : NSObject <NSCopying, NSMutableCopying, NSCoding>
 
+/**
+ * Makes a new empty matrix. I'm not sure why you'd want an empty immutable matrix, but you can get one if you like.
+ */
 - (id)init;
+
+/**
+ * Same as a call to `initWithRows:count:lambda:` where lambda is `NullInitializer`.
+ */
 - (id)initWithRows:(const NSArray* [])rows count:(NSUInteger)cnt;
+
+/**
+ * Creates a new matrix using a (c) array of arrays that is `count` long. `lambda` is used to initalize any potential missing columns in the arrays to an object of your choice.
+ */
 - (id)initWithRows:(const NSArray* [])rows count:(NSUInteger)cnt lambda:(id(^)())defaultInitializer;
+
+/**
+ * Same as a call to `initWithLambda:rows:` where `lambda` is `NullInitializer`.
+ */
 - (id)initWithRows:(NSArray*)firstObj, ... NS_REQUIRES_NIL_TERMINATION;
+
+/**
+ * Variadic variant of `initWithRows:count:lambda:`.
+ */
 - (id)initWithLambda:(id(^)())defaultInitializer rows:(NSArray*)firstObj, ... NS_REQUIRES_NIL_TERMINATION;
+
+/**
+ * Copy constructor, ahoy!
+ */
 - (id)initWithMatrix:(FSMatrix*)matrix;
+
+/**
+ * Initialize a new matrix that is described by the given dimensions and initialize everything to the return type of `lambda`.
+ */
 - (id)initWithColumns:(NSUInteger)columns rows:(NSUInteger)rows lambda:(id(^)())defaultInitializer;
 
+/** The number of rows in this matrix. If this were a 2-d C array (or C++ vector) that would be the first array subscript: `vec[x]` */
 - (NSUInteger)rows;
+
+/** The number of columns in each row in the receiver. If this were a 2-d C array (or C++ vector) that would be the second array subscipt: `vec[x][y]` */
 - (NSUInteger)columns;
 
+/**
+ * Returns the object at the given path in the receiver. Will throw an `NSArray` bounds exception if you screw up.
+ */
 - (id)objectForColumn:(NSUInteger)column row:(NSUInteger)row;
 
 @end
 
+/**
+ * Returns `[NSNull null]` all the time. Kinda clever, ain't it?
+ */
 static
 id(^NullInitializer)() = (id)^{
     static NSNull* null;

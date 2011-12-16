@@ -8,10 +8,30 @@
 
 #import "FSMatrix.h"
 
+/**
+ * Mutable variant of FSMatrix.
+ *
+ * Because this is mutable, you can set an object for any index at any time. Please be careful when doing so, because if you have a large matrix this can incur quite a lot of additions as the matrix mutates to ensure a constant column width! So in essence, if I do this:
+ *
+ *     FSMutableMatrix* mutableMatrix = [[FSMutableMatrix alloc] init];
+ *     // mutableMatrix is now an empty matrix
+ *     [mutableMatrix setObject:@"Hello, world!" forColumn:3 row:3];
+ *     // mutableMatrix now looks something like this:
+ *     // NULL NULL NULL NULL
+ *     // NULL NULL NULL NULL
+ *     // NULL NULL NULL NULL
+ *     // NULL NULL NULL "Hellow, world!"
+ */
 @interface FSMutableMatrix : FSMatrix
 
+/**
+ * Because you can change the size of the matrix dynamically, it's also nice to be able to change your mind about what kind of default object you want in there.
+ */
 @property (copy) id(^defaultInitializer)();
 
+/**
+ * Replaces and object. This will grow the matrix if necessary.
+ */ 
 - (void)setObject:(id)object forColumn:(NSUInteger)column row:(NSUInteger)row;
 
 @end

@@ -22,6 +22,7 @@
     _columns = 0;
     
     _data = [[NSMutableArray alloc] init];
+    _defaultInitializer = NullInitializer;
     
     return self;
 }
@@ -207,15 +208,15 @@
 
 - (void)setObject:(id)object forColumn:(NSUInteger)column row:(NSUInteger)row
 {
-    if (column>=_columns || row>=_rows)
-        [self growToRows:MAX(row, _rows) columns:MAX(column, _columns)];
+    if (column>_columns || row>_rows)
+        [self growToRows:MAX(row+1, _rows) columns:MAX(column+1, _columns)];
     [[_data objectAtIndex:row] replaceObjectAtIndex:column withObject:object];
 }
 
 - (void)growToRows:(NSUInteger)rows columns:(NSUInteger)columns
 {
     // Step 1: Add additional columns to all rows
-    if (columns >= _columns) {
+    if (columns > _columns) {
         NSUInteger i=columns-_columns;
         for (NSUInteger j=0;
              j<_rows;
@@ -229,7 +230,7 @@
         _columns = columns; // send KVO notes
     }
     // Step 2: Add additional rows
-    if (rows >= _rows) {
+    if (rows > _rows) {
         NSUInteger i=rows-_rows;
         for (NSUInteger j=0;
              j<i;
