@@ -9,7 +9,8 @@
 /* Begin PBXBuildFile section */
 		DA259D3B149BA745002F6F59 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA259D3A149BA745002F6F59 /* Foundation.framework */; };
 		DA259D3E149BA745002F6F59 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DA259D3D149BA745002F6F59 /* main.m */; };
-		DA259D42149BA745002F6F59 /* Matrix.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = DA259D41149BA745002F6F59 /* Matrix.1 */; };
+		DA259D4D149BA767002F6F59 /* FSMatrix.m in Sources */ = {isa = PBXBuildFile; fileRef = DA259D49149BA767002F6F59 /* FSMatrix.m */; };
+		DA259D4E149BA767002F6F59 /* FSMutableMatrix.m in Sources */ = {isa = PBXBuildFile; fileRef = DA259D4B149BA767002F6F59 /* FSMutableMatrix.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -19,7 +20,6 @@
 			dstPath = /usr/share/man/man1/;
 			dstSubfolderSpec = 0;
 			files = (
-				DA259D42149BA745002F6F59 /* Matrix.1 in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
@@ -29,8 +29,12 @@
 		DA259D36149BA745002F6F59 /* Matrix */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Matrix; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA259D3A149BA745002F6F59 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		DA259D3D149BA745002F6F59 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		DA259D40149BA745002F6F59 /* Matrix-Prefix.pch */ = {isa = PBXFileReference; path = "Matrix-Prefix.pch"; sourceTree = "<group>"; };
-		DA259D41149BA745002F6F59 /* Matrix.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = Matrix.1; sourceTree = "<group>"; };
+		DA259D40149BA745002F6F59 /* Matrix-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Matrix-Prefix.pch"; sourceTree = "<group>"; };
+		DA259D48149BA767002F6F59 /* FSMatrix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSMatrix.h; sourceTree = "<group>"; };
+		DA259D49149BA767002F6F59 /* FSMatrix.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSMatrix.m; sourceTree = "<group>"; };
+		DA259D4A149BA767002F6F59 /* FSMutableMatrix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSMutableMatrix.h; sourceTree = "<group>"; };
+		DA259D4B149BA767002F6F59 /* FSMutableMatrix.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSMutableMatrix.m; sourceTree = "<group>"; };
+		DA259D4C149BA767002F6F59 /* __FSMatrixPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = __FSMatrixPrivate.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,7 +78,11 @@
 			isa = PBXGroup;
 			children = (
 				DA259D3D149BA745002F6F59 /* main.m */,
-				DA259D41149BA745002F6F59 /* Matrix.1 */,
+				DA259D48149BA767002F6F59 /* FSMatrix.h */,
+				DA259D49149BA767002F6F59 /* FSMatrix.m */,
+				DA259D4A149BA767002F6F59 /* FSMutableMatrix.h */,
+				DA259D4B149BA767002F6F59 /* FSMutableMatrix.m */,
+				DA259D4C149BA767002F6F59 /* __FSMatrixPrivate.h */,
 				DA259D3F149BA745002F6F59 /* Supporting Files */,
 			);
 			path = Matrix;
@@ -140,6 +148,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA259D3E149BA745002F6F59 /* main.m in Sources */,
+				DA259D4D149BA767002F6F59 /* FSMatrix.m in Sources */,
+				DA259D4E149BA767002F6F59 /* FSMutableMatrix.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
