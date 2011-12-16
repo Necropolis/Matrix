@@ -27,7 +27,7 @@
 /**
  * Because you can change the size of the matrix dynamically, it's also nice to be able to change your mind about what kind of default object you want in there.
  */
-@property (copy) id(^defaultInitializer)();
+@property (copy) FSMatrixInitializer defaultInitializer;
 
 /**
  * Replaces and object. This will grow the matrix if necessary.

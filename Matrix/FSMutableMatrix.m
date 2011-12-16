@@ -76,7 +76,7 @@
     return [self initWithRows:rows count:cnt lambda:FSNullInitializer];
 }
 
-- (id)initWithRows:(const NSArray* [])rows count:(NSUInteger)cnt lambda:(id(^)())defaultInitializer
+- (id)initWithRows:(const NSArray* [])rows count:(NSUInteger)cnt lambda:(FSMatrixInitializer)defaultInitializer
 {
     self = [super init];
     if (!self) return nil;
@@ -97,14 +97,14 @@
         for (NSUInteger j=[row count];
              j<_columns; // pad the array with
              ++j) // the default initalizer
-            [row addObject:defaultInitializer()];
+            [row addObject:defaultInitializer(i, j)];
         [_data addObject:row]; // immutable copy
     }
     
     return self;
 }
 
-- (id)initWithLambda:(id (^)())defaultInitializer firstObject:(NSArray*)firstObject args:(va_list)args
+- (id)initWithLambda:(FSMatrixInitializer)defaultInitializer firstObject:(NSArray*)firstObject args:(va_list)args
 {
     self = [super init];
     
@@ -128,7 +128,7 @@
         for (NSUInteger j=[row count];
              j<_columns;
              ++j)
-            [row addObject:defaultInitializer()];
+            [row addObject:defaultInitializer(i, j)];
         // already in _data, we just mutated it
     }
     
@@ -146,7 +146,7 @@
     return self;
 }
 
-- (id)initWithLambda:(id(^)())defaultInitializer rows:(NSArray*)firstObj, ...
+- (id)initWithLambda:(FSMatrixInitializer)defaultInitializer rows:(NSArray*)firstObj, ...
 {
     va_list args;
     va_start(args, firstObj);
@@ -156,7 +156,7 @@
     return self;
 }
 
-- (id)initWithRows:(NSUInteger)rows columns:(NSUInteger)columns lambda:(id (^)())defaultInitializer
+- (id)initWithRows:(NSUInteger)rows columns:(NSUInteger)columns lambda:(FSMatrixInitializer)defaultInitializer
 {
     self = [super init];
     if (!self) return nil;
@@ -175,7 +175,7 @@
         for (NSUInteger j=0;
              j<_columns;
              ++j)
-            [row addObject:_defaultInitializer()];
+            [row addObject:_defaultInitializer(i, j)];
         [_data addObject:row];
     }
     
@@ -225,7 +225,7 @@
             for (NSUInteger k=0;
                  k<i;
                  ++k)
-                [row addObject:_defaultInitializer()];
+                [row addObject:_defaultInitializer(j, k)];
         }
         _columns = columns; // send KVO notes
     }
@@ -239,7 +239,7 @@
             for (NSUInteger k=0;
                  k<_columns;
                  ++k)
-                [row addObject:_defaultInitializer()];
+                [row addObject:_defaultInitializer(j, k)];
             [_data addObject:row];
         }
         _rows = rows; // send KVO notes

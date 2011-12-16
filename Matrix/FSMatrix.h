@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+typedef id(^FSMatrixInitializer)(NSUInteger row, NSUInteger column);
+
 /**
  * Simple two-dimensional container utilizing `NSArray` under the hood.
  * 
@@ -59,7 +61,7 @@
 /**
  * Creates a new matrix using a (c) array of arrays that is `count` long. `lambda` is used to initalize any potential missing columns in the arrays to an object of your choice.
  */
-- (id)initWithRows:(const NSArray* [])rows count:(NSUInteger)cnt lambda:(id(^)())defaultInitializer;
+- (id)initWithRows:(const NSArray* [])rows count:(NSUInteger)cnt lambda:(FSMatrixInitializer)defaultInitializer;
 
 /**
  * Same as a call to `initWithLambda:rows:` where `lambda` is `FSNullInitializer`.
@@ -69,7 +71,7 @@
 /**
  * Variadic variant of `initWithRows:count:lambda:`.
  */
-- (id)initWithLambda:(id(^)())defaultInitializer rows:(NSArray*)firstObj, ... NS_REQUIRES_NIL_TERMINATION;
+- (id)initWithLambda:(FSMatrixInitializer)defaultInitializer rows:(NSArray*)firstObj, ... NS_REQUIRES_NIL_TERMINATION;
 
 /**
  * Copy constructor, ahoy!
@@ -79,7 +81,7 @@
 /**
  * Initialize a new matrix that is described by the given dimensions and initialize everything to the return type of `lambda`.
  */
-- (id)initWithRows:(NSUInteger)rows columns:(NSUInteger)columns lambda:(id(^)())defaultInitializer;
+- (id)initWithRows:(NSUInteger)rows columns:(NSUInteger)columns lambda:(FSMatrixInitializer)defaultInitializer;
 
 /** The number of rows in this matrix. If this were a 2-d C array (or C++ vector) that would be the first array subscript: `vec[x]` */
 - (NSUInteger)rows;
@@ -98,7 +100,7 @@
  * Returns `[NSNull null]` all the time. Kinda clever, ain't it?
  */
 static
-id(^FSNullInitializer)() = (id)^{
+FSMatrixInitializer FSNullInitializer = ^(NSUInteger row, NSUInteger column){
     static NSNull* null;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{ null = [NSNull null]; });
