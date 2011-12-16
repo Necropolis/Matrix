@@ -148,7 +148,7 @@
             for (NSUInteger j=0;
                  j<_columns;
                  ++j)
-                [row addObject:[matrix objectForColumn:j row:i]];
+                [row addObject:[matrix objectAtRow:i column:j]];
             [data addObject:[row copy]]; // immutable copy
         }
         _data = [data copy]; // immutable copy
@@ -157,7 +157,7 @@
     return self;
 }
 
-- (id)initWithColumns:(NSUInteger)columns rows:(NSUInteger)rows lambda:(id(^)())defaultInitializer
+- (id)initWithRows:(NSUInteger)rows columns:(NSUInteger)columns lambda:(id(^)())defaultInitializer
 {
     self = [super init];
     if (!self) return nil;
@@ -201,7 +201,7 @@
 - (NSUInteger)columns { return _columns; }
 - (NSArray*)data { return _data; }
 
-- (id)objectForColumn:(NSUInteger)column row:(NSUInteger)row
+- (id)objectAtRow:(NSUInteger)row column:(NSUInteger)column
 {
     return [[_data objectAtIndex:row] objectAtIndex:column];
 }
@@ -296,7 +296,7 @@
     return nil;
 }
 
-- (id)initWithColumns:(NSUInteger)columns rows:(NSUInteger)rows lambda:(id(^)())defaultInitializer
+- (id)initWithRows:(NSUInteger)rows columns:(NSUInteger)columns lambda:(id(^)())defaultInitializer
 {
     [NSException raise:kVirtualMethodCalledException format:kVirtualMethodCalledExceptionDetail];
     return nil;
@@ -331,7 +331,7 @@
     return 0;
 }
 
-- (id)objectForColumn:(NSUInteger)column row:(NSUInteger)row
+- (id)objectAtRow:(NSUInteger)row column:(NSUInteger)column
 {
     [NSException raise:kVirtualMethodCalledException format:kVirtualMethodCalledExceptionDetail];
     return nil;

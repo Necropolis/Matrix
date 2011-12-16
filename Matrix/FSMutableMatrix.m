@@ -63,7 +63,7 @@
             for (NSUInteger j=0;
                  j<_columns;
                  ++j)
-                [row addObject:[matrix objectForColumn:j row:i]];
+                [row addObject:[matrix objectAtRow:i column:j]];
             [_data addObject:row];
         }
     }
@@ -156,7 +156,7 @@
     return self;
 }
 
-- (id)initWithColumns:(NSUInteger)columns rows:(NSUInteger)rows lambda:(id (^)())defaultInitializer
+- (id)initWithRows:(NSUInteger)rows columns:(NSUInteger)columns lambda:(id (^)())defaultInitializer
 {
     self = [super init];
     if (!self) return nil;
@@ -201,12 +201,12 @@
 - (NSUInteger)columns { return _columns; }
 - (NSMutableArray*)data { return _data; }
 
-- (id)objectForColumn:(NSUInteger)column row:(NSUInteger)row
+- (id)objectAtRow:(NSUInteger)row column:(NSUInteger)column
 {
     return [[_data objectAtIndex:row] objectAtIndex:column];
 }
 
-- (void)setObject:(id)object forColumn:(NSUInteger)column row:(NSUInteger)row
+- (void)setObject:(id)object forRow:(NSUInteger)row column:(NSUInteger)column
 {
     if (column>_columns || row>_rows)
         [self growToRows:MAX(row+1, _rows) columns:MAX(column+1, _columns)];
