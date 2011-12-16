@@ -52,7 +52,7 @@
 - (id)init;
 
 /**
- * Same as a call to `initWithRows:count:lambda:` where lambda is `NullInitializer`.
+ * Same as a call to `initWithRows:count:lambda:` where lambda is `FSNullInitializer`.
  */
 - (id)initWithRows:(const NSArray* [])rows count:(NSUInteger)cnt;
 
@@ -62,7 +62,7 @@
 - (id)initWithRows:(const NSArray* [])rows count:(NSUInteger)cnt lambda:(id(^)())defaultInitializer;
 
 /**
- * Same as a call to `initWithLambda:rows:` where `lambda` is `NullInitializer`.
+ * Same as a call to `initWithLambda:rows:` where `lambda` is `FSNullInitializer`.
  */
 - (id)initWithRows:(NSArray*)firstObj, ... NS_REQUIRES_NIL_TERMINATION;
 
@@ -98,7 +98,7 @@
  * Returns `[NSNull null]` all the time. Kinda clever, ain't it?
  */
 static
-id(^NullInitializer)() = (id)^{
+id(^FSNullInitializer)() = (id)^{
     static NSNull* null;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{ null = [NSNull null]; });

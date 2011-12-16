@@ -22,7 +22,7 @@
     _columns = 0;
     
     _data = [[NSMutableArray alloc] init];
-    _defaultInitializer = NullInitializer;
+    _defaultInitializer = FSNullInitializer;
     
     return self;
 }
@@ -40,7 +40,7 @@
         _data = [[NSMutableArray alloc] initWithCapacity:_rows];
         for (NSArray* row in [_matrix data])
             [_data addObject:[row mutableCopy]];
-        _defaultInitializer = NullInitializer;
+        _defaultInitializer = FSNullInitializer;
     } else if ([matrix class]==[FSMutableMatrix class]) {
         // optimized initializer
         FSMutableMatrix* _matrix = (FSMutableMatrix*)matrix;
@@ -73,7 +73,7 @@
 
 - (id)initWithRows:(const NSArray* [])rows count:(NSUInteger)cnt
 {
-    return [self initWithRows:rows count:cnt lambda:NullInitializer];
+    return [self initWithRows:rows count:cnt lambda:FSNullInitializer];
 }
 
 - (id)initWithRows:(const NSArray* [])rows count:(NSUInteger)cnt lambda:(id(^)())defaultInitializer
@@ -140,7 +140,7 @@
 {
     va_list args;
     va_start(args, firstObj);
-    self = [self initWithLambda:NullInitializer firstObject:firstObj args:args];
+    self = [self initWithLambda:FSNullInitializer firstObject:firstObj args:args];
     va_end(args);
     
     return self;

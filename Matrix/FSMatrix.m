@@ -27,7 +27,7 @@
 
 - (id)initWithRows:(const NSArray* [])rows count:(NSUInteger)cnt
 {
-    return [self initWithRows:rows count:cnt lambda:NullInitializer];
+    return [self initWithRows:rows count:cnt lambda:FSNullInitializer];
 }
 
 - (id)initWithRows:(const NSArray* [])rows count:(NSUInteger)cnt lambda:(id(^)())defaultInitializer;
@@ -98,7 +98,7 @@
 {
     va_list args;
     va_start(args, firstObj);
-    self = [self initWithLambda:NullInitializer firstObject:firstObj args:args];
+    self = [self initWithLambda:FSNullInitializer firstObject:firstObj args:args];
     va_end(args);
     return self;
 }
