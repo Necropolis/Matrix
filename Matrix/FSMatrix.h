@@ -81,13 +81,13 @@ typedef id(^FSMatrixInitializer)(NSUInteger row, NSUInteger column);
 /**
  * Initialize a new matrix that is described by the given dimensions and initialize everything to the return type of `lambda`.
  */
-- (id)initWithRows:(NSUInteger)rows columns:(NSUInteger)columns lambda:(FSMatrixInitializer)defaultInitializer;
+- (id)initWithRows:(NSUInteger)rowCount columns:(NSUInteger)columnCount lambda:(FSMatrixInitializer)defaultInitializer;
 
 /** The number of rows in this matrix. If this were a 2-d C array (or C++ vector) that would be the first array subscript: `vec[x]` */
-- (NSUInteger)rows;
+- (NSUInteger)rowCount;
 
 /** The number of columns in each row in the receiver. If this were a 2-d C array (or C++ vector) that would be the second array subscipt: `vec[x][y]` */
-- (NSUInteger)columns;
+- (NSUInteger)columnCount;
 
 /**
  * Returns the object at the given path in the receiver. Will throw an `NSArray` bounds exception if you screw up.
