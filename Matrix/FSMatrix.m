@@ -27,10 +27,10 @@
 
 - (id)initWithRows:(const NSArray* [])rows count:(NSUInteger)cnt
 {
-    return [self initWithRows:rows count:cnt lambda:FSNullInitializer];
+    return [self initWithRows:rows count:cnt initializer:FSNullInitializer];
 }
 
-- (id)initWithRows:(const NSArray* [])rows count:(NSUInteger)cnt lambda:(FSMatrixInitializer)defaultInitializer;
+- (id)initWithRows:(const NSArray* [])rows count:(NSUInteger)cnt initializer:(FSMatrixInitializer)defaultInitializer;
 {
     self = [super init];
     if (!self) return nil;
@@ -60,7 +60,7 @@
     return self;
 }
 
-- (id)initWithLambda:(FSMatrixInitializer)defaultInitializer firstObject:(NSArray*)arr args:(va_list)args
+- (id)initWithInitializer:(FSMatrixInitializer)defaultInitializer firstObject:(NSArray*)arr args:(va_list)args
 {
     self = [super init];
     
@@ -98,16 +98,16 @@
 {
     va_list args;
     va_start(args, firstObj);
-    self = [self initWithLambda:FSNullInitializer firstObject:firstObj args:args];
+    self = [self initWithInitializer:FSNullInitializer firstObject:firstObj args:args];
     va_end(args);
     return self;
 }
 
-- (id)initWithLambda:(FSMatrixInitializer)defaultInitializer rows:(NSArray*)firstObj, ...
+- (id)initWithInitializer:(FSMatrixInitializer)defaultInitializer rows:(NSArray*)firstObj, ...
 {
     va_list args;
     va_start(args, firstObj);
-    self = [self initWithLambda:defaultInitializer firstObject:firstObj args:args];
+    self = [self initWithInitializer:defaultInitializer firstObject:firstObj args:args];
     va_end(args);
     return self;
 }
@@ -157,7 +157,7 @@
     return self;
 }
 
-- (id)initWithRowCount:(NSUInteger)rowCount columnCount:(NSUInteger)columnCount lambda:(FSMatrixInitializer)defaultInitializer
+- (id)initWithRowCount:(NSUInteger)rowCount columnCount:(NSUInteger)columnCount initializer:(FSMatrixInitializer)defaultInitializer
 {
     self = [super init];
     if (!self) return nil;
@@ -272,7 +272,7 @@
     return nil;
 }
 
-- (id)initWithRows:(const NSArray* [])rows count:(NSUInteger)cnt lambda:(FSMatrixInitializer)defaultInitializer
+- (id)initWithRows:(const NSArray* [])rows count:(NSUInteger)cnt initializer:(FSMatrixInitializer)defaultInitializer
 {
     [NSException raise:kVirtualMethodCalledException format:kVirtualMethodCalledExceptionDetail];
     return nil;
@@ -284,7 +284,7 @@
     return nil;
 }
 
-- (id)initWithLambda:(FSMatrixInitializer)defaultInitializer rows:(NSArray*)firstObj, ...
+- (id)initWithInitializer:(FSMatrixInitializer)defaultInitializer rows:(NSArray*)firstObj, ...
 {
     [NSException raise:kVirtualMethodCalledException format:kVirtualMethodCalledExceptionDetail];
     return nil;
@@ -296,7 +296,7 @@
     return nil;
 }
 
-- (id)initWithRowCount:(NSUInteger)rowCount columnCount:(NSUInteger)columnCount lambda:(FSMatrixInitializer)defaultInitializer
+- (id)initWithRowCount:(NSUInteger)rowCount columnCount:(NSUInteger)columnCount initializer:(FSMatrixInitializer)defaultInitializer
 {
     [NSException raise:kVirtualMethodCalledException format:kVirtualMethodCalledExceptionDetail];
     return nil;
