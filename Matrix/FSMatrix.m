@@ -20,7 +20,7 @@
     
     _rowCount = 0;
     _columnCount = 0;
-    _data = [[NSArray alloc] init];
+    _rows = [[NSArray alloc] init];
     
     return self;
 }
@@ -55,7 +55,7 @@
         [data addObject:[row copy]]; // immutable copy
     }
     
-    _data = [data copy]; // immutable copy
+    _rows = [data copy]; // immutable copy
     
     return self;
 }
@@ -89,7 +89,7 @@
         [data addObject:[row copy]]; // immutable copy
     }
     
-    _data = [data copy]; // immutable copy
+    _rows = [data copy]; // immutable copy
     
     return self;
 }
@@ -122,9 +122,9 @@
         FSMatrixImpl* _matrix = (FSMatrixImpl*)matrix;
         _rowCount = _matrix->_rowCount;
         _columnCount = _matrix->_columnCount;
-        NSMutableArray* deepCopyArray = [[NSMutableArray alloc] initWithCapacity:[_matrix->_data count]];
-        for (NSArray* row in _matrix->_data) [deepCopyArray addObject:[row copy]];
-        _data = [deepCopyArray copy];
+        NSMutableArray* deepCopyArray = [[NSMutableArray alloc] initWithCapacity:[_matrix->_rows count]];
+        for (NSArray* row in _matrix->_rows) [deepCopyArray addObject:[row copy]];
+        _rows = [deepCopyArray copy];
     } else if ([matrix class]==[FSMutableMatrix class]) {
         // optimized initalizer
         FSMutableMatrix* _matrix = (FSMutableMatrix*)matrix;
@@ -134,8 +134,8 @@
         for (NSUInteger i=0;
              i<_rowCount;
              ++i)
-            [deepCopyArray addObject:[[[_matrix data] objectAtIndex:i] copy]]; // immutable copy
-        _data = [deepCopyArray copy]; // immutable copy
+            [deepCopyArray addObject:[[[_matrix rows] objectAtIndex:i] copy]]; // immutable copy
+        _rows = [deepCopyArray copy]; // immutable copy
     } else {
         // iterate over the thing the slow way
         _rowCount = [matrix rowCount];
@@ -151,7 +151,7 @@
                 [row addObject:[matrix objectAtRowIndex:i columnIndex:j]];
             [data addObject:[row copy]]; // immutable copy
         }
-        _data = [data copy]; // immutable copy
+        _rows = [data copy]; // immutable copy
     }
     
     return self;
@@ -177,7 +177,7 @@
         [data addObject:[row copy]];
     }
     
-    _data = [data copy];
+    _rows = [data copy];
     
     return self;
 }
@@ -192,18 +192,18 @@
     
     _rowCount = [aDecoder decodeInt64ForKey:@"_rowCount"];
     _columnCount = [aDecoder decodeInt64ForKey:@"_columnCount"];
-    _data = [aDecoder decodeObjectForKey:@"_data"];
+    _rows = [aDecoder decodeObjectForKey:@"_rows"];
     
     return self;
 }
 
 - (NSUInteger)rowCount { return _rowCount; }
 - (NSUInteger)columnCount { return _columnCount; }
-- (NSArray*)data { return _data; }
+- (NSArray*)rows { return _rows; }
 
 - (id)objectAtRowIndex:(NSUInteger)rowIndex columnIndex:(NSUInteger)columnIndex
 {
-    return [[_data objectAtIndex:rowIndex] objectAtIndex:columnIndex];
+    return [[_rows objectAtIndex:rowIndex] objectAtIndex:columnIndex];
 }
 
 - (id)copy
@@ -233,12 +233,12 @@
     
     [aCoder encodeInt64:_rowCount forKey:@"_rowCount"];
     [aCoder encodeInt64:_columnCount forKey:@"_columnCount"];
-    [aCoder encodeObject:_data forKey:@"_data"];
+    [aCoder encodeObject:_rows forKey:@"_rows"];
 }
 
 - (NSString*)description
 {
-    return [_data description];
+    return [_rows description];
 }
 
 @end

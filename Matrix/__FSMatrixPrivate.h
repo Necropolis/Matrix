@@ -22,19 +22,19 @@
 
 @interface FSMatrixImpl : FSMatrix {
 @private
-    NSArray* _data;
+    NSArray* _rows;
     NSUInteger _rowCount;
     NSUInteger _columnCount;
 }
-- (NSArray*)data;
+- (NSArray*)rows;
 @end
 
 @interface FSMutableMatrix () {
-    NSMutableArray* _data;
+    NSMutableArray* _rows;
     NSUInteger _rowCount;
     NSUInteger _columnCount;
 }
-- (NSMutableArray*)data;
+- (NSMutableArray*)rows;
 - (void)growToRowCount:(NSUInteger)rowCount columnCount:(NSUInteger)columnCount;
 @end
 
