@@ -217,6 +217,51 @@
     [[_rows objectAtIndex:rowIndex] replaceObjectAtIndex:columnIndex withObject:object];
 }
 
+- (void)insertObject:(id)anObject atRowIndex:(NSUInteger)rowIndex newRow:(BOOL)newRow columnIndex:(NSUInteger)columnIndex newColumn:(BOOL)newColumn;
+{
+    if (newRow) {
+        [self insertRowAtIndex:rowIndex];
+    }
+    if (newColumn) {
+        [self insertColumnAtIndex:columnIndex];
+    }
+    
+    [self setObject:anObject atRowIndex:rowIndex columnIndex:columnIndex];
+}
+
+- (void)insertRowAtIndex:(NSUInteger)rowIndex;
+{
+    if (rowIndex >= _rowCount) {
+        [self growToRowCount:rowIndex + 1];
+    }
+    else {
+        NSMutableArray* newRow = [[NSMutableArray alloc] initWithCapacity:_columnCount];
+        for (NSUInteger j=0;
+             j<_columnCount;
+             ++j)
+            [newRow addObject:_defaultInitializer(rowIndex, j)];
+        [_rows insertObject:newRow atIndex:rowIndex];
+        
+        _rowCount++;
+    }
+}
+
+- (void)insertColumnAtIndex:(NSUInteger)columnIndex;
+{
+    if (columnIndex >= _columnCount) {
+        [self growToColumnCount:columnIndex + 1];
+    }
+    else {
+        NSUInteger i=0;
+        for (NSMutableArray* row in _rows) {
+            [row insertObject:_defaultInitializer(i, columnIndex) atIndex:columnIndex];
+            i++;
+        }
+        
+        _columnCount++;
+    }
+}
+
 - (void)growToRowCount:(NSUInteger)rowCount;
 {
     if (rowCount > _rowCount) {

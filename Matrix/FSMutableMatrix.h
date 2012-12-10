@@ -33,6 +33,7 @@
  * Replaces an object. This will grow the matrix if necessary.
  */ 
 - (void)setObject:(id)object atRowIndex:(NSUInteger)rowIndex columnIndex:(NSUInteger)columnIndex;
+- (void)insertObject:(id)anObject atRowIndex:(NSUInteger)rowIndex newRow:(BOOL)newRow columnIndex:(NSUInteger)columnIndex newColumn:(BOOL)newColumn;
 
 - (void)growToRowCount:(NSUInteger)rowCount;
 - (void)growToColumnCount:(NSUInteger)columnCount;
