@@ -34,4 +34,7 @@
  */ 
 - (void)setObject:(id)object atRowIndex:(NSUInteger)rowIndex columnIndex:(NSUInteger)columnIndex;
 
+- (void)growToRowCount:(NSUInteger)rowCount;
+- (void)growToColumnCount:(NSUInteger)columnCount;
+
 @end

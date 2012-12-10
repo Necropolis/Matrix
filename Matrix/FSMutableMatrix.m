@@ -208,28 +208,17 @@
 
 - (void)setObject:(id)object atRowIndex:(NSUInteger)rowIndex columnIndex:(NSUInteger)columnIndex
 {
-    if (columnIndex>_columnCount || rowIndex>_rowCount)
-        [self growToRowCount:MAX(rowIndex+1, _rowCount) columnCount:MAX(columnIndex+1, _columnCount)];
+    if (columnIndex>_columnCount)
+        [self growToColumnCount:MAX(columnIndex+1, _columnCount)];
+    
+    if (rowIndex>_rowCount)
+        [self growToRowCount:MAX(rowIndex+1, _rowCount)];
+    
     [[_rows objectAtIndex:rowIndex] replaceObjectAtIndex:columnIndex withObject:object];
 }
 
-- (void)growToRowCount:(NSUInteger)rowCount columnCount:(NSUInteger)columnCount
+- (void)growToRowCount:(NSUInteger)rowCount;
 {
-    // Step 1: Add additional columns to all rows
-    if (columnCount > _columnCount) {
-        NSUInteger i=columnCount-_columnCount;
-        for (NSUInteger j=0;
-             j<_rowCount;
-             ++j) {
-            NSMutableArray* row = [_rows objectAtIndex:j];
-            for (NSUInteger k=0;
-                 k<i;
-                 ++k)
-                [row addObject:_defaultInitializer(j, k)];
-        }
-        _columnCount = columnCount; // send KVO notes
-    }
-    // Step 2: Add additional rows
     if (rowCount > _rowCount) {
         NSUInteger i=rowCount-_rowCount;
         for (NSUInteger j=0;
@@ -244,6 +233,32 @@
         }
         _rowCount = rowCount; // send KVO notes
     }
+}
+
+- (void)growToColumnCount:(NSUInteger)columnCount;
+{
+    if (columnCount > _columnCount) {
+        NSUInteger i=columnCount-_columnCount;
+        for (NSUInteger j=0;
+             j<_rowCount;
+             ++j) {
+            NSMutableArray* row = [_rows objectAtIndex:j];
+            for (NSUInteger k=0;
+                 k<i;
+                 ++k)
+                [row addObject:_defaultInitializer(j, k)];
+        }
+        _columnCount = columnCount; // send KVO notes
+    }
+}
+
+- (void)growToRowCount:(NSUInteger)rowCount columnCount:(NSUInteger)columnCount
+{
+    // Step 1: Add additional columns to all rows
+    [self growToColumnCount:columnCount];
+
+    // Step 2: Add additional rows
+    [self growToRowCount:rowCount];
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder
