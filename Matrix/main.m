@@ -22,7 +22,7 @@ int main (int argc, const char * argv[])
         FSMutableMatrix* mutableMatrix = [[FSMutableMatrix alloc] initWithRowCount:10 columnCount:10 initializer:FSNullInitializer];
         for (NSUInteger i=0; i<10; ++i)
             for (NSUInteger j=0; j<10; ++j)
-                [mutableMatrix setObject:[NSString stringWithFormat:@"(%2lu,%2lu)", i,j] forRowIndex:i columnIndex:j];
+                [mutableMatrix setObject:[NSString stringWithFormat:@"(%2lu,%2lu)", i,j] atRowIndex:i columnIndex:j];
         NSLog(@"Mutable Matrix: %@", mutableMatrix);
         
         matrix = [mutableMatrix copy];
@@ -39,7 +39,7 @@ int main (int argc, const char * argv[])
         FSMutableMatrix* mutationExample = [[FSMutableMatrix alloc] init];
         NSLog(@"Mutation Example: %@", mutationExample);
         
-        [mutationExample setObject:@"Hello, world!" forRowIndex:3 columnIndex:3];
+        [mutationExample setObject:@"Hello, world!" atRowIndex:3 columnIndex:3];
         NSLog(@"Mutation Example: %@", mutationExample);
         
     }

@@ -32,6 +32,6 @@
 /**
  * Replaces an object. This will grow the matrix if necessary.
  */ 
-- (void)setObject:(id)object forRowIndex:(NSUInteger)rowIndex columnIndex:(NSUInteger)columnIndex;
+- (void)setObject:(id)object atRowIndex:(NSUInteger)rowIndex columnIndex:(NSUInteger)columnIndex;
 
 @end

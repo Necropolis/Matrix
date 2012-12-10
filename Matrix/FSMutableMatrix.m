@@ -206,7 +206,7 @@
     return [[_rows objectAtIndex:rowIndex] objectAtIndex:columnIndex];
 }
 
-- (void)setObject:(id)object forRowIndex:(NSUInteger)rowIndex columnIndex:(NSUInteger)columnIndex
+- (void)setObject:(id)object atRowIndex:(NSUInteger)rowIndex columnIndex:(NSUInteger)columnIndex
 {
     if (columnIndex>_columnCount || rowIndex>_rowCount)
         [self growToRowCount:MAX(rowIndex+1, _rowCount) columnCount:MAX(columnIndex+1, _columnCount)];
