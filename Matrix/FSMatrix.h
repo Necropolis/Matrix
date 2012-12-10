@@ -28,7 +28,7 @@ typedef id(^FSMatrixInitializer)(NSUInteger row, NSUInteger column);
  *              @"Assertion Failure!"); // this will always be true,
  *     // so the assertion will never fail
  *
- * You can use the `lambda` parameter of some construtors to control what the matrix will be prepopulated with. For example, if I were building a video game and wanted an isometric map to hold all the actors, I'd want a matrix of `NSMutableSet` objects to hold everything. The best initializer to use in that situation is:
+ * You can use the `lambda` parameter of some constructors to control what the matrix will be prepopulated with. For example, if I were building a video game and wanted an isometric map to hold all the actors, I'd want a matrix of `NSMutableSet` objects to hold everything. The best initializer to use in that situation is:
  *
  *     NSUInteger cols = ...; // hopefully you'll get these from
  *     NSUInteger rows = ...; // somewhere...

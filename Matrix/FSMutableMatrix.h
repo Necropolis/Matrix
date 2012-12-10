@@ -30,7 +30,7 @@
 @property (copy) FSMatrixInitializer defaultInitializer;
 
 /**
- * Replaces and object. This will grow the matrix if necessary.
+ * Replaces an object. This will grow the matrix if necessary.
  */ 
 - (void)setObject:(id)object forRow:(NSUInteger)row column:(NSUInteger)column;
 
