@@ -35,7 +35,7 @@
     NSUInteger _columnCount;
 }
 - (NSMutableArray*)data;
-- (void)growToRows:(NSUInteger)rowCount columns:(NSUInteger)columnCount;
+- (void)growToRowCount:(NSUInteger)rowCount columnCount:(NSUInteger)columnCount;
 @end
 
 #endif

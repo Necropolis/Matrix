@@ -24,7 +24,7 @@ typedef id(^FSMatrixInitializer)(NSUInteger row, NSUInteger column);
  *         @"Leon Trotsky",
  *         @"Vladimir Lenin", nil],
  *       nil];
- *     NSAssert([deadFolks objectForRow:0 column:2]==[NSNull null],
+ *     NSAssert([deadFolks objectForRowCount:0 columnCount:2]==[NSNull null],
  *              @"Assertion Failure!"); // this will always be true,
  *     // so the assertion will never fail
  *
@@ -34,10 +34,10 @@ typedef id(^FSMatrixInitializer)(NSUInteger row, NSUInteger column);
  *     NSUInteger rows = ...; // somewhere...
  *     FSMatrix* map =
  *       [[FSMatrix alloc]
- *         initWithRows:rows
- *              columns:cols
- *               lambda:id(^)(){
- *                 return [NSMutableSet setWithCapacity:10];
+ *         initWithRowCount:rows
+ *              columnCount:cols
+ *                   lambda:id(^)(){
+ *                     return [NSMutableSet setWithCapacity:10];
  *               }];
  *
  * Each and every value in the matrix is a mutable set, ready for action.
@@ -81,7 +81,7 @@ typedef id(^FSMatrixInitializer)(NSUInteger row, NSUInteger column);
 /**
  * Initialize a new matrix that is described by the given dimensions and initialize everything to the return type of `lambda`.
  */
-- (id)initWithRows:(NSUInteger)rowCount columns:(NSUInteger)columnCount lambda:(FSMatrixInitializer)defaultInitializer;
+- (id)initWithRowCount:(NSUInteger)rowCount columnCount:(NSUInteger)columnCount lambda:(FSMatrixInitializer)defaultInitializer;
 
 /** The number of rows in this matrix. If this were a 2-d C array (or C++ vector) that would be the first array subscript: `vec[x]` */
 - (NSUInteger)rowCount;
@@ -92,7 +92,7 @@ typedef id(^FSMatrixInitializer)(NSUInteger row, NSUInteger column);
 /**
  * Returns the object at the given path in the receiver. Will throw an `NSArray` bounds exception if you screw up.
  */
-- (id)objectAtRow:(NSUInteger)row column:(NSUInteger)column;
+- (id)objectAtRowIndex:(NSUInteger)rowIndex columnIndex:(NSUInteger)column;
 
 @end
 

@@ -63,7 +63,7 @@
             for (NSUInteger j=0;
                  j<_columnCount;
                  ++j)
-                [row addObject:[matrix objectAtRow:i column:j]];
+                [row addObject:[matrix objectAtRowIndex:i columnIndex:j]];
             [_data addObject:row];
         }
     }
@@ -156,7 +156,7 @@
     return self;
 }
 
-- (id)initWithRows:(NSUInteger)rowCount columns:(NSUInteger)columnCount lambda:(FSMatrixInitializer)defaultInitializer
+- (id)initWithRowCount:(NSUInteger)rowCount columnCount:(NSUInteger)columnCount lambda:(FSMatrixInitializer)defaultInitializer
 {
     self = [super init];
     if (!self) return nil;
@@ -201,19 +201,19 @@
 - (NSUInteger)columnCount { return _columnCount; }
 - (NSMutableArray*)data { return _data; }
 
-- (id)objectAtRow:(NSUInteger)row column:(NSUInteger)column
+- (id)objectAtRowIndex:(NSUInteger)rowIndex columnIndex:(NSUInteger)columnIndex
 {
-    return [[_data objectAtIndex:row] objectAtIndex:column];
+    return [[_data objectAtIndex:rowIndex] objectAtIndex:columnIndex];
 }
 
-- (void)setObject:(id)object forRow:(NSUInteger)row column:(NSUInteger)column
+- (void)setObject:(id)object forRowIndex:(NSUInteger)rowIndex columnIndex:(NSUInteger)columnIndex
 {
-    if (column>_columnCount || row>_rowCount)
-        [self growToRows:MAX(row+1, _rowCount) columns:MAX(column+1, _columnCount)];
-    [[_data objectAtIndex:row] replaceObjectAtIndex:column withObject:object];
+    if (columnIndex>_columnCount || rowIndex>_rowCount)
+        [self growToRowCount:MAX(rowIndex+1, _rowCount) columnCount:MAX(columnIndex+1, _columnCount)];
+    [[_data objectAtIndex:rowIndex] replaceObjectAtIndex:columnIndex withObject:object];
 }
 
-- (void)growToRows:(NSUInteger)rowCount columns:(NSUInteger)columnCount
+- (void)growToRowCount:(NSUInteger)rowCount columnCount:(NSUInteger)columnCount
 {
     // Step 1: Add additional columns to all rows
     if (columnCount > _columnCount) {

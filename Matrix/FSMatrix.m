@@ -148,7 +148,7 @@
             for (NSUInteger j=0;
                  j<_columnCount;
                  ++j)
-                [row addObject:[matrix objectAtRow:i column:j]];
+                [row addObject:[matrix objectAtRowIndex:i columnIndex:j]];
             [data addObject:[row copy]]; // immutable copy
         }
         _data = [data copy]; // immutable copy
@@ -157,7 +157,7 @@
     return self;
 }
 
-- (id)initWithRows:(NSUInteger)rowCount columns:(NSUInteger)columnCount lambda:(FSMatrixInitializer)defaultInitializer
+- (id)initWithRowCount:(NSUInteger)rowCount columnCount:(NSUInteger)columnCount lambda:(FSMatrixInitializer)defaultInitializer
 {
     self = [super init];
     if (!self) return nil;
@@ -201,9 +201,9 @@
 - (NSUInteger)columnCount { return _columnCount; }
 - (NSArray*)data { return _data; }
 
-- (id)objectAtRow:(NSUInteger)row column:(NSUInteger)column
+- (id)objectAtRowIndex:(NSUInteger)rowIndex columnIndex:(NSUInteger)columnIndex
 {
-    return [[_data objectAtIndex:row] objectAtIndex:column];
+    return [[_data objectAtIndex:rowIndex] objectAtIndex:columnIndex];
 }
 
 - (id)copy
@@ -296,7 +296,7 @@
     return nil;
 }
 
-- (id)initWithRows:(NSUInteger)rowCount columns:(NSUInteger)columnCount lambda:(FSMatrixInitializer)defaultInitializer
+- (id)initWithRowCount:(NSUInteger)rowCount columnCount:(NSUInteger)columnCount lambda:(FSMatrixInitializer)defaultInitializer
 {
     [NSException raise:kVirtualMethodCalledException format:kVirtualMethodCalledExceptionDetail];
     return nil;
@@ -331,7 +331,7 @@
     return 0;
 }
 
-- (id)objectAtRow:(NSUInteger)row column:(NSUInteger)column
+- (id)objectAtRowIndex:(NSUInteger)rowIndex columnIndex:(NSUInteger)column
 {
     [NSException raise:kVirtualMethodCalledException format:kVirtualMethodCalledExceptionDetail];
     return nil;
