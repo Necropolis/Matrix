@@ -42,6 +42,21 @@ int main (int argc, const char * argv[])
         [mutationExample setObject:@"Hello, world!" atRowIndex:3 columnIndex:3];
         NSLog(@"Mutation Example: %@", mutationExample);
         
+        NSUInteger centerColumnIndex = (mutationExample.columnCount + 1) / 2;
+        [mutationExample insertObject:@"Top of the world."
+                           atRowIndex:0 newRow:NO
+                          columnIndex:centerColumnIndex
+                            newColumn:YES];
+        NSLog(@"Insertion Example #1: %@", mutationExample);
+        
+        NSUInteger centerRowIndex = (mutationExample.rowCount + 1) / 2;
+        [mutationExample insertObject:@"Center of the world."
+                           atRowIndex:centerRowIndex
+                               newRow:YES
+                          columnIndex:centerColumnIndex
+                            newColumn:NO];
+        NSLog(@"Insertion Example #2: %@", mutationExample);
+        
     }
     
     return 0;
