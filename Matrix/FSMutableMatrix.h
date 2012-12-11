@@ -30,8 +30,12 @@
 @property (copy) FSMatrixInitializer defaultInitializer;
 
 /**
- * Replaces and object. This will grow the matrix if necessary.
+ * Replaces an object. This will grow the matrix if necessary.
  */ 
-- (void)setObject:(id)object forRow:(NSUInteger)row column:(NSUInteger)column;
+- (void)setObject:(id)anObject atRowIndex:(NSUInteger)rowIndex columnIndex:(NSUInteger)columnIndex;
+- (void)insertObject:(id)anObject atRowIndex:(NSUInteger)rowIndex newRow:(BOOL)newRow columnIndex:(NSUInteger)columnIndex newColumn:(BOOL)newColumn;
+
+- (void)growToRowCount:(NSUInteger)rowCount;
+- (void)growToColumnCount:(NSUInteger)columnCount;
 
 @end

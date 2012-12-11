@@ -1,10 +1,10 @@
 # Matrices for Cocoa
 
-A quick two-dimensional matrix implementation for Cocoa.
+A quick two-dimensional matrix implementation for Cocoa. The entire project requires ARC (Automatic Reference Counting).
 
 Code speaks louder than words:
 
-```
+``` objective-c
 FSMatrix* matrix = [[FSMatrix alloc] init];
 NSLog(@"Matrix: %@", matrix);
 /*
@@ -12,10 +12,12 @@ NSLog(@"Matrix: %@", matrix);
  * )
  */
 
-FSMutableMatrix* mutableMatrix = [[FSMutableMatrix alloc] initWithColumns:10 rows:10 lambda:NullInitializer];
+FSMutableMatrix* mutableMatrix = [[FSMutableMatrix alloc] initWithRowCount:10
+                                                               columnCount:10
+                                                               initializer:FSNullInitializer];
 for (NSUInteger i=0; i<10; ++i)
   for (NSUInteger j=0; j<10; ++j)
-   [mutableMatrix setObject:[NSString stringWithFormat:@"(%2lu,%2lu)", i,j] forColumn:j row:i];
+    [mutableMatrix setObject:[NSString stringWithFormat:@"(%2lu,%2lu)", i,j] atRowIndex:i columnIndex:j];
 NSLog(@"Mutable Matrix: %@", mutableMatrix);
 /*
  * Mutable Matrix: (

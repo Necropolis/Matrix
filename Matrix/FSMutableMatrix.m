@@ -13,21 +13,21 @@
 
 @synthesize defaultInitializer=_defaultInitializer;
 
-- (id)init
+- (instancetype)init
 {
     self = [super init];
     if (!self) return nil;
     
-    _rows = 0;
-    _columns = 0;
+    _rowCount = 0;
+    _columnCount = 0;
     
-    _data = [[NSMutableArray alloc] init];
+    _rows = [[NSMutableArray alloc] init];
     _defaultInitializer = FSNullInitializer;
     
     return self;
 }
 
-- (id)initWithMatrix:(FSMatrix *)matrix
+- (instancetype)initWithMatrix:(FSMatrix *)matrix
 {
     self = [super init];
     if (!self) return nil;
@@ -35,154 +35,154 @@
     if ([matrix class]==[FSMatrixImpl class]) {
         // optimized initializer
         FSMatrixImpl* _matrix = (FSMatrixImpl*)matrix;
-        _rows = [_matrix rows];
-        _columns = [_matrix columns];
-        _data = [[NSMutableArray alloc] initWithCapacity:_rows];
-        for (NSArray* row in [_matrix data])
-            [_data addObject:[row mutableCopy]];
+        _rowCount = [_matrix rowCount];
+        _columnCount = [_matrix columnCount];
+        _rows = [[NSMutableArray alloc] initWithCapacity:_rowCount];
+        for (NSArray* row in [_matrix rows])
+            [_rows addObject:[row mutableCopy]];
         _defaultInitializer = FSNullInitializer;
     } else if ([matrix class]==[FSMutableMatrix class]) {
         // optimized initializer
         FSMutableMatrix* _matrix = (FSMutableMatrix*)matrix;
-        _rows = _matrix->_rows;
-        _columns = _matrix->_columns;
-        _data = [[NSMutableArray alloc] initWithCapacity:_rows];
+        _rowCount = _matrix->_rowCount;
+        _columnCount = _matrix->_columnCount;
+        _rows = [[NSMutableArray alloc] initWithCapacity:_rowCount];
         for (NSUInteger i=0; // perform a
-             i<_rows;        // deep copy
+             i<_rowCount;        // deep copy
              ++i)
-            [_data addObject:[[_matrix->_data objectAtIndex:i] mutableCopy]];
+            [_rows addObject:[[_matrix->_rows objectAtIndex:i] mutableCopy]];
     } else {
         // really not optimized initializer
-        _rows = [matrix rows];
-        _columns = [matrix columns];
-        _data = [[NSMutableArray alloc] initWithCapacity:_rows];
+        _rowCount = [matrix rowCount];
+        _columnCount = [matrix columnCount];
+        _rows = [[NSMutableArray alloc] initWithCapacity:_rowCount];
         for (NSUInteger i=0;
-             i<_rows;
+             i<_rowCount;
              ++i) {
-            NSMutableArray* row = [[NSMutableArray alloc] initWithCapacity:_columns];
+            NSMutableArray* row = [[NSMutableArray alloc] initWithCapacity:_columnCount];
             for (NSUInteger j=0;
-                 j<_columns;
+                 j<_columnCount;
                  ++j)
-                [row addObject:[matrix objectAtRow:i column:j]];
-            [_data addObject:row];
+                [row addObject:[matrix objectAtRowIndex:i columnIndex:j]];
+            [_rows addObject:row];
         }
     }
     
     return self;
 }
 
-- (id)initWithRows:(const NSArray* [])rows count:(NSUInteger)cnt
+- (instancetype)initWithRows:(const NSArray* [])rows count:(NSUInteger)cnt
 {
-    return [self initWithRows:rows count:cnt lambda:FSNullInitializer];
+    return [self initWithRows:rows count:cnt initializer:FSNullInitializer];
 }
 
-- (id)initWithRows:(const NSArray* [])rows count:(NSUInteger)cnt lambda:(FSMatrixInitializer)defaultInitializer
+- (instancetype)initWithRows:(const NSArray* [])rows count:(NSUInteger)cnt initializer:(FSMatrixInitializer)defaultInitializer
 {
     self = [super init];
     if (!self) return nil;
     
-    _rows = cnt;
-    _columns = 0;
-    _data = [[NSMutableArray alloc] initWithCapacity:_rows];
+    _rowCount = cnt;
+    _columnCount = 0;
+    _rows = [[NSMutableArray alloc] initWithCapacity:_rowCount];
     
     for (NSUInteger i=0;
-         i<_rows;
+         i<_rowCount;
          ++i)
-        if ([rows[i] count]>_columns) _columns = [rows[i] count];
+        if ([rows[i] count]>_columnCount) _columnCount = [rows[i] count];
     
     for (NSUInteger i=0;
-         i<_rows;
+         i<_rowCount;
          ++i) {
         NSMutableArray* row = [rows[i] mutableCopy];
         for (NSUInteger j=[row count];
-             j<_columns; // pad the array with
+             j<_columnCount; // pad the array with
              ++j) // the default initalizer
             [row addObject:defaultInitializer(i, j)];
-        [_data addObject:row]; // immutable copy
+        [_rows addObject:row]; // immutable copy
     }
     
     return self;
 }
 
-- (id)initWithLambda:(FSMatrixInitializer)defaultInitializer firstObject:(NSArray*)firstObject args:(va_list)args
+- (instancetype)initWithInitializer:(FSMatrixInitializer)defaultInitializer firstObject:(NSArray*)firstObject args:(va_list)args
 {
     self = [super init];
     
-    _data = [[NSMutableArray alloc] init];
-    _columns = 0;
+    _rows = [[NSMutableArray alloc] init];
+    _columnCount = 0;
     
     for (NSArray* arg = firstObject;
          arg != nil;
          arg = va_arg(args, NSArray*)) {
-        [_data addObject:[arg mutableCopy]];
-        if ([arg count]>_columns) _columns = [arg count];
+        [_rows addObject:[arg mutableCopy]];
+        if ([arg count]>_columnCount) _columnCount = [arg count];
     }
     
-    _rows = [_data count];
+    _rowCount = [_rows count];
     
     // ensure width of each row
     for (NSUInteger i=0;
-         i<_rows;
+         i<_rowCount;
          ++i) {
-        NSMutableArray* row = [_data objectAtIndex:i];
+        NSMutableArray* row = [_rows objectAtIndex:i];
         for (NSUInteger j=[row count];
-             j<_columns;
+             j<_columnCount;
              ++j)
             [row addObject:defaultInitializer(i, j)];
-        // already in _data, we just mutated it
+        // already in _rows, we just mutated it
     }
     
     return self;
 
 }
 
-- (id)initWithRows:(NSArray*)firstObj, ...
+- (instancetype)initWithRows:(NSArray*)firstObj, ...
 {
     va_list args;
     va_start(args, firstObj);
-    self = [self initWithLambda:FSNullInitializer firstObject:firstObj args:args];
+    self = [self initWithInitializer:FSNullInitializer firstObject:firstObj args:args];
     va_end(args);
     
     return self;
 }
 
-- (id)initWithLambda:(FSMatrixInitializer)defaultInitializer rows:(NSArray*)firstObj, ...
+- (instancetype)initWithInitializer:(FSMatrixInitializer)defaultInitializer rows:(NSArray*)firstObj, ...
 {
     va_list args;
     va_start(args, firstObj);
-    self = [self initWithLambda:defaultInitializer firstObject:firstObj args:args];
+    self = [self initWithInitializer:defaultInitializer firstObject:firstObj args:args];
     va_end(args);
     
     return self;
 }
 
-- (id)initWithRows:(NSUInteger)rows columns:(NSUInteger)columns lambda:(FSMatrixInitializer)defaultInitializer
+- (instancetype)initWithRowCount:(NSUInteger)rowCount columnCount:(NSUInteger)columnCount initializer:(FSMatrixInitializer)defaultInitializer
 {
     self = [super init];
     if (!self) return nil;
     
-    _rows = rows;
-    _columns = columns;
+    _rowCount = rowCount;
+    _columnCount = columnCount;
     
     _defaultInitializer = [defaultInitializer copy];
     
-    _data = [[NSMutableArray alloc] initWithCapacity:rows];
+    _rows = [[NSMutableArray alloc] initWithCapacity:rowCount];
     
     for (NSUInteger i=0;
-         i<_rows;
+         i<_rowCount;
          ++i) {
-        NSMutableArray* row = [[NSMutableArray alloc] initWithCapacity:_columns];
+        NSMutableArray* row = [[NSMutableArray alloc] initWithCapacity:_columnCount];
         for (NSUInteger j=0;
-             j<_columns;
+             j<_columnCount;
              ++j)
             [row addObject:_defaultInitializer(i, j)];
-        [_data addObject:row];
+        [_rows addObject:row];
     }
     
     return self;
 }
 
-- (id)initWithCoder:(NSCoder *)aDecoder
+- (instancetype)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super init];
     if (!self) return nil;
@@ -190,60 +190,123 @@
     if (![aDecoder allowsKeyedCoding])
         [NSException raise:kUnkeyedArchiveException format:kUnkeyedArchiveExceptionDetail];
     
-    _rows = [aDecoder decodeInt64ForKey:@"_rows"];
-    _columns = [aDecoder decodeInt64ForKey:@"_columns"];
-    _data = [aDecoder decodeObjectForKey:@"_data"]; // yay for NSArray & friends doing all the work
+    _rowCount = [aDecoder decodeInt64ForKey:@"_rowCount"];
+    _columnCount = [aDecoder decodeInt64ForKey:@"_columnCount"];
+    _rows = [aDecoder decodeObjectForKey:@"_rows"]; // yay for NSArray & friends doing all the work
     
     return self;
 }
 
-- (NSUInteger)rows { return _rows; }
-- (NSUInteger)columns { return _columns; }
-- (NSMutableArray*)data { return _data; }
+- (NSUInteger)rowCount { return _rowCount; }
+- (NSUInteger)columnCount { return _columnCount; }
+- (NSMutableArray*)rows { return _rows; }
 
-- (id)objectAtRow:(NSUInteger)row column:(NSUInteger)column
+- (instancetype)objectAtRowIndex:(NSUInteger)rowIndex columnIndex:(NSUInteger)columnIndex
 {
-    return [[_data objectAtIndex:row] objectAtIndex:column];
+    return [[_rows objectAtIndex:rowIndex] objectAtIndex:columnIndex];
 }
 
-- (void)setObject:(id)object forRow:(NSUInteger)row column:(NSUInteger)column
+- (void)setObject:(id)anObject atRowIndex:(NSUInteger)rowIndex columnIndex:(NSUInteger)columnIndex
 {
-    if (column>_columns || row>_rows)
-        [self growToRows:MAX(row+1, _rows) columns:MAX(column+1, _columns)];
-    [[_data objectAtIndex:row] replaceObjectAtIndex:column withObject:object];
+    if (columnIndex >= _columnCount)
+        [self growToColumnCount:MAX(columnIndex+1, _columnCount)];
+    
+    if (rowIndex >= _rowCount)
+        [self growToRowCount:MAX(rowIndex+1, _rowCount)];
+    
+    if (anObject == nil)
+        anObject = _defaultInitializer(rowIndex, columnIndex);
+
+    [[_rows objectAtIndex:rowIndex] replaceObjectAtIndex:columnIndex withObject:anObject];
 }
 
-- (void)growToRows:(NSUInteger)rows columns:(NSUInteger)columns
+- (void)insertObject:(id)anObject atRowIndex:(NSUInteger)rowIndex newRow:(BOOL)newRow columnIndex:(NSUInteger)columnIndex newColumn:(BOOL)newColumn;
 {
-    // Step 1: Add additional columns to all rows
-    if (columns > _columns) {
-        NSUInteger i=columns-_columns;
+    if (newRow) {
+        [self insertRowAtIndex:rowIndex];
+    }
+    if (newColumn) {
+        [self insertColumnAtIndex:columnIndex];
+    }
+    
+    [self setObject:anObject atRowIndex:rowIndex columnIndex:columnIndex];
+}
+
+- (void)insertRowAtIndex:(NSUInteger)rowIndex;
+{
+    if (rowIndex >= _rowCount) {
+        [self growToRowCount:rowIndex + 1];
+    }
+    else {
+        NSMutableArray* newRow = [[NSMutableArray alloc] initWithCapacity:_columnCount];
         for (NSUInteger j=0;
-             j<_rows;
+             j<_columnCount;
+             ++j)
+            [newRow addObject:_defaultInitializer(rowIndex, j)];
+        [_rows insertObject:newRow atIndex:rowIndex];
+        
+        _rowCount++;
+    }
+}
+
+- (void)insertColumnAtIndex:(NSUInteger)columnIndex;
+{
+    if (columnIndex >= _columnCount) {
+        [self growToColumnCount:columnIndex + 1];
+    }
+    else {
+        NSUInteger i=0;
+        for (NSMutableArray* row in _rows) {
+            [row insertObject:_defaultInitializer(i, columnIndex) atIndex:columnIndex];
+            i++;
+        }
+        
+        _columnCount++;
+    }
+}
+
+- (void)growToRowCount:(NSUInteger)rowCount;
+{
+    if (rowCount > _rowCount) {
+        NSUInteger i=rowCount-_rowCount;
+        for (NSUInteger j=0;
+             j<i;
              ++j) {
-            NSMutableArray* row = [_data objectAtIndex:j];
+            NSMutableArray* row = [[NSMutableArray alloc] initWithCapacity:_columnCount];
+            for (NSUInteger k=0;
+                 k<_columnCount;
+                 ++k)
+                [row addObject:_defaultInitializer(j, k)];
+            [_rows addObject:row];
+        }
+        _rowCount = rowCount; // send KVO notes
+    }
+}
+
+- (void)growToColumnCount:(NSUInteger)columnCount;
+{
+    if (columnCount > _columnCount) {
+        NSUInteger i=columnCount-_columnCount;
+        for (NSUInteger j=0;
+             j<_rowCount;
+             ++j) {
+            NSMutableArray* row = [_rows objectAtIndex:j];
             for (NSUInteger k=0;
                  k<i;
                  ++k)
                 [row addObject:_defaultInitializer(j, k)];
         }
-        _columns = columns; // send KVO notes
+        _columnCount = columnCount; // send KVO notes
     }
+}
+
+- (void)growToRowCount:(NSUInteger)rowCount columnCount:(NSUInteger)columnCount
+{
+    // Step 1: Add additional columns to all rows
+    [self growToColumnCount:columnCount];
+
     // Step 2: Add additional rows
-    if (rows > _rows) {
-        NSUInteger i=rows-_rows;
-        for (NSUInteger j=0;
-             j<i;
-             ++j) {
-            NSMutableArray* row = [[NSMutableArray alloc] initWithCapacity:_columns];
-            for (NSUInteger k=0;
-                 k<_columns;
-                 ++k)
-                [row addObject:_defaultInitializer(j, k)];
-            [_data addObject:row];
-        }
-        _rows = rows; // send KVO notes
-    }
+    [self growToRowCount:rowCount];
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder
@@ -251,19 +314,19 @@
     if (![aCoder allowsKeyedCoding])
         [NSException raise:kUnkeyedArchiveException format:kUnkeyedArchiveExceptionDetail];
     
-    [aCoder encodeInt64:_rows forKey:@"_rows"];
-    [aCoder encodeInt64:_columns forKey:@"_columns"];
-    [aCoder encodeObject:_data forKey:@"_data"];
+    [aCoder encodeInt64:_rowCount forKey:@"_rowCount"];
+    [aCoder encodeInt64:_columnCount forKey:@"_columnCount"];
+    [aCoder encodeObject:_rows forKey:@"_rows"];
 }
 
 - (NSString*)description
 {
-    return [_data description];
+    return [_rows description];
 }
 
 - (id)copy { return [[FSMatrixImpl alloc] initWithMatrix:self]; }
 - (id)copyWithZone:(NSZone*)zone { return [[FSMatrixImpl alloc] initWithMatrix:self]; }
-- (id)mutableCopy { return [[FSMutableMatrix alloc] initWithMatrix:self]; }
-- (id)mutableCopyWithZone:(NSZone*)zone { return [[FSMutableMatrix alloc] initWithMatrix:self]; }
+- (instancetype)mutableCopy { return [[FSMutableMatrix alloc] initWithMatrix:self]; }
+- (instancetype)mutableCopyWithZone:(NSZone*)zone { return [[FSMutableMatrix alloc] initWithMatrix:self]; }
 
 @end

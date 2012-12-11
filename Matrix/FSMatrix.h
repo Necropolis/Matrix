@@ -24,19 +24,19 @@ typedef id(^FSMatrixInitializer)(NSUInteger row, NSUInteger column);
  *         @"Leon Trotsky",
  *         @"Vladimir Lenin", nil],
  *       nil];
- *     NSAssert([deadFolks objectForRow:0 column:2]==[NSNull null],
+ *     NSAssert([deadFolks objectForRowCount:0 columnCount:2]==[NSNull null],
  *              @"Assertion Failure!"); // this will always be true,
  *     // so the assertion will never fail
  *
- * You can use the `lambda` parameter of some construtors to control what the matrix will be prepopulated with. For example, if I were building a video game and wanted an isometric map to hold all the actors, I'd want a matrix of `NSMutableSet` objects to hold everything. The best initializer to use in that situation is:
+ * You can use the `initializer` parameter of some constructors to control what the matrix will be prepopulated with. For example, if I were building a video game and wanted an isometric map to hold all the actors, I'd want a matrix of `NSMutableSet` objects to hold everything. The best initializer to use in that situation is:
  *
  *     NSUInteger cols = ...; // hopefully you'll get these from
  *     NSUInteger rows = ...; // somewhere...
  *     FSMatrix* map =
  *       [[FSMatrix alloc]
- *         initWithRows:rows
- *              columns:cols
- *               lambda:id(^)(){
+ *         initWithRowCount:rows
+ *              columnCount:cols
+ *              initializer:id(^)(){
  *                 return [NSMutableSet setWithCapacity:10];
  *               }];
  *
@@ -54,24 +54,24 @@ typedef id(^FSMatrixInitializer)(NSUInteger row, NSUInteger column);
 - (id)init;
 
 /**
- * Same as a call to `initWithRows:count:lambda:` where lambda is `FSNullInitializer`.
+ * Same as a call to `initWithRows:count:initializer:` where initializer is `FSNullInitializer`.
  */
 - (id)initWithRows:(const NSArray* [])rows count:(NSUInteger)cnt;
 
 /**
- * Creates a new matrix using a (c) array of arrays that is `count` long. `lambda` is used to initalize any potential missing columns in the arrays to an object of your choice.
+ * Creates a new matrix using a (c) array of arrays that is `count` long. `initializer` is used to initalize any potential missing columns in the arrays to an object of your choice.
  */
-- (id)initWithRows:(const NSArray* [])rows count:(NSUInteger)cnt lambda:(FSMatrixInitializer)defaultInitializer;
+- (id)initWithRows:(const NSArray* [])rows count:(NSUInteger)cnt initializer:(FSMatrixInitializer)defaultInitializer;
 
 /**
- * Same as a call to `initWithLambda:rows:` where `lambda` is `FSNullInitializer`.
+ * Same as a call to `initWithInitializer:rows:` where `initializer` is `FSNullInitializer`.
  */
 - (id)initWithRows:(NSArray*)firstObj, ... NS_REQUIRES_NIL_TERMINATION;
 
 /**
- * Variadic variant of `initWithRows:count:lambda:`.
+ * Variadic variant of `initWithRows:count:initializer:`.
  */
-- (id)initWithLambda:(FSMatrixInitializer)defaultInitializer rows:(NSArray*)firstObj, ... NS_REQUIRES_NIL_TERMINATION;
+- (id)initWithInitializer:(FSMatrixInitializer)defaultInitializer rows:(NSArray*)firstObj, ... NS_REQUIRES_NIL_TERMINATION;
 
 /**
  * Copy constructor, ahoy!
@@ -79,20 +79,23 @@ typedef id(^FSMatrixInitializer)(NSUInteger row, NSUInteger column);
 - (id)initWithMatrix:(FSMatrix*)matrix;
 
 /**
- * Initialize a new matrix that is described by the given dimensions and initialize everything to the return type of `lambda`.
+ * Initialize a new matrix that is described by the given dimensions and initialize everything to the return type of `initializer`.
  */
-- (id)initWithRows:(NSUInteger)rows columns:(NSUInteger)columns lambda:(FSMatrixInitializer)defaultInitializer;
+- (id)initWithRowCount:(NSUInteger)rowCount columnCount:(NSUInteger)columnCount initializer:(FSMatrixInitializer)defaultInitializer;
 
 /** The number of rows in this matrix. If this were a 2-d C array (or C++ vector) that would be the first array subscript: `vec[x]` */
-- (NSUInteger)rows;
+- (NSUInteger)rowCount;
 
 /** The number of columns in each row in the receiver. If this were a 2-d C array (or C++ vector) that would be the second array subscipt: `vec[x][y]` */
-- (NSUInteger)columns;
+- (NSUInteger)columnCount;
+
+/** Nested arrays representing row and columns in the receiver. */
+- (NSArray*)rows;
 
 /**
  * Returns the object at the given path in the receiver. Will throw an `NSArray` bounds exception if you screw up.
  */
-- (id)objectAtRow:(NSUInteger)row column:(NSUInteger)column;
+- (id)objectAtRowIndex:(NSUInteger)rowIndex columnIndex:(NSUInteger)column;
 
 @end
 

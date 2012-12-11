@@ -17,25 +17,25 @@
 #define kVritualCodingCalledExceptionDetail @"How did you even get this object, man? This is an imaginary pure-virtual class. I'm not sure how you managed to fail this bad, but simply bravo sir. Bravo."
 
 @interface FSMatrix (InitializeAsObject)
-- (id)initAsObject;
+- (instancetype)initAsObject;
 @end
 
 @interface FSMatrixImpl : FSMatrix {
 @private
-    NSArray* _data;
-    NSUInteger _rows;
-    NSUInteger _columns;
+    NSArray* _rows;
+    NSUInteger _rowCount;
+    NSUInteger _columnCount;
 }
-- (NSArray*)data;
+- (NSArray*)rows;
 @end
 
 @interface FSMutableMatrix () {
-    NSMutableArray* _data;
-    NSUInteger _rows;
-    NSUInteger _columns;
+    NSMutableArray* _rows;
+    NSUInteger _rowCount;
+    NSUInteger _columnCount;
 }
-- (NSMutableArray*)data;
-- (void)growToRows:(NSUInteger)rows columns:(NSUInteger)columns;
+- (NSMutableArray*)rows;
+- (void)growToRowCount:(NSUInteger)rowCount columnCount:(NSUInteger)columnCount;
 @end
 
 #endif
