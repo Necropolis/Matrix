@@ -208,10 +208,10 @@
 
 - (void)setObject:(id)object atRowIndex:(NSUInteger)rowIndex columnIndex:(NSUInteger)columnIndex
 {
-    if (columnIndex>_columnCount)
+    if (columnIndex >= _columnCount)
         [self growToColumnCount:MAX(columnIndex+1, _columnCount)];
     
-    if (rowIndex>_rowCount)
+    if (rowIndex >= _rowCount)
         [self growToRowCount:MAX(rowIndex+1, _rowCount)];
     
     [[_rows objectAtIndex:rowIndex] replaceObjectAtIndex:columnIndex withObject:object];
