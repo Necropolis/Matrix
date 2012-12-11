@@ -1,6 +1,6 @@
 # Matrices for Cocoa
 
-A quick two-dimensional matrix implementation for Cocoa.
+A quick two-dimensional matrix implementation for Cocoa. The entire project requires ARC (Automatic Reference Counting).
 
 Code speaks louder than words:
 
