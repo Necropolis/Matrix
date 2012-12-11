@@ -13,7 +13,7 @@
 
 @implementation FSMatrixImpl
 
-- (id)init
+- (instancetype)init
 {
     self = [super init];
     if (!self) return nil;
@@ -25,12 +25,12 @@
     return self;
 }
 
-- (id)initWithRows:(const NSArray* [])rows count:(NSUInteger)cnt
+- (instancetype)initWithRows:(const NSArray* [])rows count:(NSUInteger)cnt
 {
     return [self initWithRows:rows count:cnt initializer:FSNullInitializer];
 }
 
-- (id)initWithRows:(const NSArray* [])rows count:(NSUInteger)cnt initializer:(FSMatrixInitializer)defaultInitializer;
+- (instancetype)initWithRows:(const NSArray* [])rows count:(NSUInteger)cnt initializer:(FSMatrixInitializer)defaultInitializer;
 {
     self = [super init];
     if (!self) return nil;
@@ -60,7 +60,7 @@
     return self;
 }
 
-- (id)initWithInitializer:(FSMatrixInitializer)defaultInitializer firstObject:(NSArray*)arr args:(va_list)args
+- (instancetype)initWithInitializer:(FSMatrixInitializer)defaultInitializer firstObject:(NSArray*)arr args:(va_list)args
 {
     self = [super init];
     
@@ -94,7 +94,7 @@
     return self;
 }
 
-- (id)initWithRows:(NSArray*)firstObj, ...
+- (instancetype)initWithRows:(NSArray*)firstObj, ...
 {
     va_list args;
     va_start(args, firstObj);
@@ -103,7 +103,7 @@
     return self;
 }
 
-- (id)initWithInitializer:(FSMatrixInitializer)defaultInitializer rows:(NSArray*)firstObj, ...
+- (instancetype)initWithInitializer:(FSMatrixInitializer)defaultInitializer rows:(NSArray*)firstObj, ...
 {
     va_list args;
     va_start(args, firstObj);
@@ -112,7 +112,7 @@
     return self;
 }
 
-- (id)initWithMatrix:(FSMatrix*)matrix
+- (instancetype)initWithMatrix:(FSMatrix*)matrix
 {
     self = [super init];
     if (!self) return nil;
@@ -157,7 +157,7 @@
     return self;
 }
 
-- (id)initWithRowCount:(NSUInteger)rowCount columnCount:(NSUInteger)columnCount initializer:(FSMatrixInitializer)defaultInitializer
+- (instancetype)initWithRowCount:(NSUInteger)rowCount columnCount:(NSUInteger)columnCount initializer:(FSMatrixInitializer)defaultInitializer
 {
     self = [super init];
     if (!self) return nil;
@@ -182,7 +182,7 @@
     return self;
 }
 
-- (id)initWithCoder:(NSCoder *)aDecoder
+- (instancetype)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super init];
     if (!self) return nil;
@@ -201,17 +201,17 @@
 - (NSUInteger)columnCount { return _columnCount; }
 - (NSArray*)rows { return _rows; }
 
-- (id)objectAtRowIndex:(NSUInteger)rowIndex columnIndex:(NSUInteger)columnIndex
+- (instancetype)objectAtRowIndex:(NSUInteger)rowIndex columnIndex:(NSUInteger)columnIndex
 {
     return [[_rows objectAtIndex:rowIndex] objectAtIndex:columnIndex];
 }
 
-- (id)copy
+- (instancetype)copy
 {
     return [[FSMatrixImpl alloc] initWithMatrix:self];
 }
 
-- (id)copyWithZone:(NSZone*)zone
+- (instancetype)copyWithZone:(NSZone*)zone
 {   // zones are deprecated and are ignored by the runtime in general
     return [[FSMatrixImpl alloc] initWithMatrix:self];
 }
@@ -245,7 +245,7 @@
 
 @implementation FSMatrix
 
-+ (id)alloc
++ (instancetype)alloc
 {
     if ([self isEqual:[FSMatrix class]])
         return [FSMatrixImpl alloc];
@@ -253,7 +253,7 @@
         return [super alloc];
 }
 
-+ (id)allocWithZone:(NSZone*)zone
++ (instancetype)allocWithZone:(NSZone*)zone
 {
     if ([self isEqual:[FSMatrix class]])
         return [FSMatrixImpl allocWithZone:zone];
@@ -261,48 +261,48 @@
         return [super allocWithZone:zone];
 }
 
-- (id)init 
+- (instancetype)init 
 {   // no ivars to do anything to
     return [super init];
 }
 
-- (id)initWithRows:(const NSArray* [])rows count:(NSUInteger)cnt
+- (instancetype)initWithRows:(const NSArray* [])rows count:(NSUInteger)cnt
 {
     [NSException raise:kVirtualMethodCalledException format:kVirtualMethodCalledExceptionDetail];
     return nil;
 }
 
-- (id)initWithRows:(const NSArray* [])rows count:(NSUInteger)cnt initializer:(FSMatrixInitializer)defaultInitializer
+- (instancetype)initWithRows:(const NSArray* [])rows count:(NSUInteger)cnt initializer:(FSMatrixInitializer)defaultInitializer
 {
     [NSException raise:kVirtualMethodCalledException format:kVirtualMethodCalledExceptionDetail];
     return nil;
 }
 
-- (id)initWithRows:(NSArray*)firstObj, ...
+- (instancetype)initWithRows:(NSArray*)firstObj, ...
 {
     [NSException raise:kVirtualMethodCalledException format:kVirtualMethodCalledExceptionDetail];
     return nil;
 }
 
-- (id)initWithInitializer:(FSMatrixInitializer)defaultInitializer rows:(NSArray*)firstObj, ...
+- (instancetype)initWithInitializer:(FSMatrixInitializer)defaultInitializer rows:(NSArray*)firstObj, ...
 {
     [NSException raise:kVirtualMethodCalledException format:kVirtualMethodCalledExceptionDetail];
     return nil;
 };
 
-- (id)initWithMatrix:(FSMatrix*)matrix
+- (instancetype)initWithMatrix:(FSMatrix*)matrix
 {
     [NSException raise:kVirtualMethodCalledException format:kVirtualMethodCalledExceptionDetail];
     return nil;
 }
 
-- (id)initWithRowCount:(NSUInteger)rowCount columnCount:(NSUInteger)columnCount initializer:(FSMatrixInitializer)defaultInitializer
+- (instancetype)initWithRowCount:(NSUInteger)rowCount columnCount:(NSUInteger)columnCount initializer:(FSMatrixInitializer)defaultInitializer
 {
     [NSException raise:kVirtualMethodCalledException format:kVirtualMethodCalledExceptionDetail];
     return nil;
 }
 
-- (id)initWithCoder:(NSCoder *)aDecoder
+- (instancetype)initWithCoder:(NSCoder *)aDecoder
 {
     [NSException raise:kVirtualCodingCalledException format:kVritualCodingCalledExceptionDetail];
     return nil;
@@ -337,31 +337,31 @@
     return nil;
 }
 
-- (id)objectAtRowIndex:(NSUInteger)rowIndex columnIndex:(NSUInteger)column
+- (instancetype)objectAtRowIndex:(NSUInteger)rowIndex columnIndex:(NSUInteger)column
 {
     [NSException raise:kVirtualMethodCalledException format:kVirtualMethodCalledExceptionDetail];
     return nil;
 }
 
-- (id)copy
+- (instancetype)copy
 {
     [NSException raise:kVirtualMethodCalledException format:kVirtualMethodCalledExceptionDetail];
     return nil;
 }
 
-- (id)copyWithZone:(NSZone*)zone
+- (instancetype)copyWithZone:(NSZone*)zone
 {
     [NSException raise:kVirtualMethodCalledException format:kVirtualMethodCalledExceptionDetail];
     return nil;
 }
 
-- (id)mutableCopy
+- (instancetype)mutableCopy
 {
     [NSException raise:kVirtualMethodCalledException format:kVirtualMethodCalledExceptionDetail];
     return nil;
 }
 
-- (id)mutableCopyWithZone:(NSZone*)zone
+- (instancetype)mutableCopyWithZone:(NSZone*)zone
 {
     [NSException raise:kVirtualMethodCalledException format:kVirtualMethodCalledExceptionDetail];
     return nil;

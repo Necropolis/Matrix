@@ -13,7 +13,7 @@
 
 @synthesize defaultInitializer=_defaultInitializer;
 
-- (id)init
+- (instancetype)init
 {
     self = [super init];
     if (!self) return nil;
@@ -27,7 +27,7 @@
     return self;
 }
 
-- (id)initWithMatrix:(FSMatrix *)matrix
+- (instancetype)initWithMatrix:(FSMatrix *)matrix
 {
     self = [super init];
     if (!self) return nil;
@@ -71,12 +71,12 @@
     return self;
 }
 
-- (id)initWithRows:(const NSArray* [])rows count:(NSUInteger)cnt
+- (instancetype)initWithRows:(const NSArray* [])rows count:(NSUInteger)cnt
 {
     return [self initWithRows:rows count:cnt initializer:FSNullInitializer];
 }
 
-- (id)initWithRows:(const NSArray* [])rows count:(NSUInteger)cnt initializer:(FSMatrixInitializer)defaultInitializer
+- (instancetype)initWithRows:(const NSArray* [])rows count:(NSUInteger)cnt initializer:(FSMatrixInitializer)defaultInitializer
 {
     self = [super init];
     if (!self) return nil;
@@ -104,7 +104,7 @@
     return self;
 }
 
-- (id)initWithInitializer:(FSMatrixInitializer)defaultInitializer firstObject:(NSArray*)firstObject args:(va_list)args
+- (instancetype)initWithInitializer:(FSMatrixInitializer)defaultInitializer firstObject:(NSArray*)firstObject args:(va_list)args
 {
     self = [super init];
     
@@ -136,7 +136,7 @@
 
 }
 
-- (id)initWithRows:(NSArray*)firstObj, ...
+- (instancetype)initWithRows:(NSArray*)firstObj, ...
 {
     va_list args;
     va_start(args, firstObj);
@@ -146,7 +146,7 @@
     return self;
 }
 
-- (id)initWithInitializer:(FSMatrixInitializer)defaultInitializer rows:(NSArray*)firstObj, ...
+- (instancetype)initWithInitializer:(FSMatrixInitializer)defaultInitializer rows:(NSArray*)firstObj, ...
 {
     va_list args;
     va_start(args, firstObj);
@@ -156,7 +156,7 @@
     return self;
 }
 
-- (id)initWithRowCount:(NSUInteger)rowCount columnCount:(NSUInteger)columnCount initializer:(FSMatrixInitializer)defaultInitializer
+- (instancetype)initWithRowCount:(NSUInteger)rowCount columnCount:(NSUInteger)columnCount initializer:(FSMatrixInitializer)defaultInitializer
 {
     self = [super init];
     if (!self) return nil;
@@ -182,7 +182,7 @@
     return self;
 }
 
-- (id)initWithCoder:(NSCoder *)aDecoder
+- (instancetype)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super init];
     if (!self) return nil;
@@ -201,7 +201,7 @@
 - (NSUInteger)columnCount { return _columnCount; }
 - (NSMutableArray*)rows { return _rows; }
 
-- (id)objectAtRowIndex:(NSUInteger)rowIndex columnIndex:(NSUInteger)columnIndex
+- (instancetype)objectAtRowIndex:(NSUInteger)rowIndex columnIndex:(NSUInteger)columnIndex
 {
     return [[_rows objectAtIndex:rowIndex] objectAtIndex:columnIndex];
 }
@@ -326,7 +326,7 @@
 
 - (id)copy { return [[FSMatrixImpl alloc] initWithMatrix:self]; }
 - (id)copyWithZone:(NSZone*)zone { return [[FSMatrixImpl alloc] initWithMatrix:self]; }
-- (id)mutableCopy { return [[FSMutableMatrix alloc] initWithMatrix:self]; }
-- (id)mutableCopyWithZone:(NSZone*)zone { return [[FSMutableMatrix alloc] initWithMatrix:self]; }
+- (instancetype)mutableCopy { return [[FSMutableMatrix alloc] initWithMatrix:self]; }
+- (instancetype)mutableCopyWithZone:(NSZone*)zone { return [[FSMutableMatrix alloc] initWithMatrix:self]; }
 
 @end

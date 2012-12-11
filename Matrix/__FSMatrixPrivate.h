@@ -17,7 +17,7 @@
 #define kVritualCodingCalledExceptionDetail @"How did you even get this object, man? This is an imaginary pure-virtual class. I'm not sure how you managed to fail this bad, but simply bravo sir. Bravo."
 
 @interface FSMatrix (InitializeAsObject)
-- (id)initAsObject;
+- (instancetype)initAsObject;
 @end
 
 @interface FSMatrixImpl : FSMatrix {
