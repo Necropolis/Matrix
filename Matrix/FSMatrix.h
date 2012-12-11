@@ -89,6 +89,9 @@ typedef id(^FSMatrixInitializer)(NSUInteger row, NSUInteger column);
 /** The number of columns in each row in the receiver. If this were a 2-d C array (or C++ vector) that would be the second array subscipt: `vec[x][y]` */
 - (NSUInteger)columnCount;
 
+/** Nested arrays representing row and columns in the receiver. */
+- (NSArray*)rows;
+
 /**
  * Returns the object at the given path in the receiver. Will throw an `NSArray` bounds exception if you screw up.
  */

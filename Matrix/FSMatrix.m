@@ -331,6 +331,12 @@
     return 0;
 }
 
+- (NSArray *)rows
+{
+    [NSException raise:kVirtualMethodCalledException format:kVirtualMethodCalledExceptionDetail];
+    return nil;
+}
+
 - (id)objectAtRowIndex:(NSUInteger)rowIndex columnIndex:(NSUInteger)column
 {
     [NSException raise:kVirtualMethodCalledException format:kVirtualMethodCalledExceptionDetail];
