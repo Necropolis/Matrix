@@ -206,7 +206,7 @@
     return [[_rows objectAtIndex:rowIndex] objectAtIndex:columnIndex];
 }
 
-- (void)setObject:(id)object atRowIndex:(NSUInteger)rowIndex columnIndex:(NSUInteger)columnIndex
+- (void)setObject:(id)anObject atRowIndex:(NSUInteger)rowIndex columnIndex:(NSUInteger)columnIndex
 {
     if (columnIndex >= _columnCount)
         [self growToColumnCount:MAX(columnIndex+1, _columnCount)];
@@ -214,7 +214,10 @@
     if (rowIndex >= _rowCount)
         [self growToRowCount:MAX(rowIndex+1, _rowCount)];
     
-    [[_rows objectAtIndex:rowIndex] replaceObjectAtIndex:columnIndex withObject:object];
+    if (anObject == nil)
+        anObject = _defaultInitializer(rowIndex, columnIndex);
+
+    [[_rows objectAtIndex:rowIndex] replaceObjectAtIndex:columnIndex withObject:anObject];
 }
 
 - (void)insertObject:(id)anObject atRowIndex:(NSUInteger)rowIndex newRow:(BOOL)newRow columnIndex:(NSUInteger)columnIndex newColumn:(BOOL)newColumn;
